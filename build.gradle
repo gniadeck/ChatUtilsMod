@@ -70,3 +70,6 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+runClient {
+	args '--username', 'lazarus'
+}
