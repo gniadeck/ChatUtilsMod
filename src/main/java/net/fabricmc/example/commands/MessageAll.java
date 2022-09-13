@@ -49,8 +49,6 @@ public class MessageAll {
                                 });
                                 executor.start();
 
-
-
                             } catch (Throwable t){
                                 LOGGER.error(t.getMessage());
                             }
