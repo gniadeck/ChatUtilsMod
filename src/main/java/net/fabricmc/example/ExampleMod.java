@@ -2,10 +2,7 @@ package net.fabricmc.example;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.commands.GiveawayCommand;
-import net.fabricmc.example.commands.MessageAll;
-import net.fabricmc.example.commands.PayAll;
-import net.fabricmc.example.commands.TpaHereAll;
+import net.fabricmc.example.commands.*;
 import net.fabricmc.example.listeners.GiveawayChatListener;
 import net.fabricmc.example.listeners.ListenerManager;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
@@ -33,5 +30,6 @@ public class ExampleMod implements ModInitializer, ClientModInitializer {
 		(new PayAll()).init();
 		(new TpaHereAll()).init();
 		(new GiveawayCommand()).register();
+		(new RandomPlayer()).register();
 	}
 }

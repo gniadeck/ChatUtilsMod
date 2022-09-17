@@ -37,21 +37,27 @@ public abstract class AllPlayersCommand {
 
         ClientCommandManager.DISPATCHER.register(literal(getCommandName())
                 .then(argument("arg", greedyString())
-                        .executes(handleOneArgument())
-                        .executes(handleNoArguments())));
+                        .executes(handleOneArgument()))
+                        .executes(handleNoArguments()));
 
 
     }
 
     protected Command<FabricClientCommandSource> handleNoArguments(){
+        System.out.println("No args");
+
         return c -> {
-            PlayerLogger.playerLog("Please pass argument parameter!", c.getSource().getPlayer().getUuid());
+            LOGGER.error("NO ARGS");
+            PlayerLogger.playerLog("Please pass argument parameter!!", c.getSource().getPlayer().getUuid());
             return 0;
         };
     }
 
     protected Command<FabricClientCommandSource> handleOneArgument(){
+        System.out.println("One arg");
+
         return c -> {
+            LOGGER.info("One arg");
             try {
                 PlayerLogger.playerLog("Starting method...",
                         c.getSource().getPlayer().getUuid());
