@@ -74,6 +74,7 @@ public abstract class AllPlayersCommand {
                 Thread executor = new Thread(() -> {
                     for (String playerName : finalPlayerNames) {
                         c.getSource().getPlayer().sendChatMessage(getCommandToInvoke(playerName, getString(c, "arg")));
+                        System.out.println("Invoking " + getCommandToInvoke(playerName, getString(c, "arg")));
                         try {
                             Thread.sleep(getSleepTimeBetweenInvocations());
                         } catch (InterruptedException e) {

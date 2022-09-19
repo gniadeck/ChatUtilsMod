@@ -3,8 +3,8 @@ package net.fabricmc.example;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.example.commands.*;
-import net.fabricmc.example.listeners.GiveawayChatListener;
-import net.fabricmc.example.listeners.ListenerManager;
+import net.fabricmc.example.config.ModConfig;
+import net.fabricmc.example.config.SimpleConfig;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,16 +20,19 @@ public class ExampleMod implements ModInitializer, ClientModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+
 	    onInitializeClient();
 		LOGGER.info("Hello Fabric world!");
 	}
 
 	@Override
 	public void onInitializeClient() {
+		ModConfig.registerConfigs();
 		MessageAll.register(ClientCommandManager.DISPATCHER);
 		(new PayAll()).init();
 		(new TpaHereAll()).init();
 		(new GiveawayCommand()).register();
 		(new RandomPlayer()).register();
+		(new AllPlayers()).init();
 	}
 }

@@ -2,6 +2,7 @@ package net.fabricmc.example.commands;
 
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.fabricmc.example.config.ModConfig;
 import net.fabricmc.example.listeners.GiveawayChatListener;
 import net.fabricmc.example.listeners.ListenerManager;
 import net.fabricmc.example.utils.PlayerMessageUtils;
@@ -46,8 +47,10 @@ public class GiveawayCommand {
                                             }
                                         }
 //
-                                        PlayerMessageUtils.sendPublicMessage("Gratulacje, " + getUsername(lastMessage, c) + " wygrales " + getInteger(c, "amount") + "$!");
-                                        PlayerMessageUtils.sendPublicMessage("/pay " + getUsername(lastMessage, c) + " " + getInteger(c, "amount"));
+//                                        PlayerMessageUtils.sendPublicMessage("Gratulacje, " + getUsername(lastMessage, c) + " wygrales " + getInteger(c, "amount") + "$!");
+                                        PlayerMessageUtils.sendPublicMessage(ModConfig.GIVEAWAY_WIN_MESSAGE.replace("%p",
+                                                getUsername(lastMessage, c)).replace("%a", String.valueOf(getInteger(c, "amount"))));
+                                        PlayerMessageUtils.sendPublicMessage(ModConfig.PAYALL_COMMAND + " " + getUsername(lastMessage, c) + " " + getInteger(c, "amount"));
                                         password = null;
                                     });
                                     thread.start();

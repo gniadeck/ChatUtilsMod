@@ -1,13 +1,14 @@
 package net.fabricmc.example.commands;
 
 import com.mojang.brigadier.Command;
+import net.fabricmc.example.config.ModConfig;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 
 public class TpaHereAll extends AllPlayersCommand{
     @Override
     protected String getCommandToInvoke(String player, String arg) {
-        return "/tpahere " + player;
+        return ModConfig.TPAHEREALL_MESSAGE_PREFIX +" " + player;
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.fabricmc.example.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.fabricmc.example.config.ModConfig;
 import net.fabricmc.example.utils.PlayerLogger;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
@@ -41,7 +42,7 @@ public class MessageAll {
                                     for (String playerName : finalPlayerNames) {
                                         c.getSource().getPlayer().sendChatMessage(getMsgCommand(playerName, getString(c, "message")));
                                         try {
-                                            Thread.sleep(2100);
+                                            Thread.sleep(ModConfig.MESSAGEALL_DELAY);
                                         } catch (InterruptedException e) {
                                             throw new RuntimeException(e);
                                         }
@@ -62,7 +63,7 @@ public class MessageAll {
 
     private static String getMsgCommand(String player, String message){
         Random random = new Random();
-        return "/msg " + player + " " + message;
+        return ModConfig.MESSAGEALL_PREFIX +" " + player + " " + message;
     }
 
     private static String randomChars(int length){
@@ -74,4 +75,6 @@ public class MessageAll {
         }
         return builder.toString();
     }
+
+
 }
