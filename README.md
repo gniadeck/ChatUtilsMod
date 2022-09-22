@@ -41,7 +41,7 @@ will pay a random player 1000$ !
 
 ### /tpahereall *optional* 'message'
 #### ex. /tpahereall Hi, wanna see my epic house?
-If you are not an admin, but want to ask all server to teleport to your current location, you can use /tpahereall command. If no argument is provided, the command just works like `/allplayers /tpahereall %u`, but if argument is provided, after invoking /tpahere *player* command, private message (/msg) is sent. So, invoked commands would be:
+If you are not an admin, but you want to ask all server players to teleport to your current location, you can use /tpahereall command. If no argument is provided, the command just works like `/allplayers /tpahereall %u`, but if argument is provided, after invoking /tpahere *player* command, private message (/msg) is sent. So, invoked commands would be:
 ```
 */tpahere Pog*
 */msg Pog Hi, wanna see my epic house?*
