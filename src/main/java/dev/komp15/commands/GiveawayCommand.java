@@ -47,7 +47,7 @@ public class GiveawayCommand {
             ListenerManager.CHAT_LISTENERS.add(listener);
             PlayerMessageUtils.sendPublicMessage(getMessage(getString(c, "message"), getString(c, "arg"), String.valueOf(getInteger(c, "amount"))));
             lockThread();
-            PlayerMessageUtils.sendPublicMessage(ModConfig.GIVEAWAY_WIN_MESSAGE.replace("%u",
+            PlayerMessageUtils.sendPublicMessage(ModConfig.GIVEAWAY_WIN_MESSAGE.replace("%p",
                     getUsername(lastMessage, c)).replace("%a", String.valueOf(getInteger(c, "amount"))));
             PlayerMessageUtils.sendPublicMessage(ModConfig.PAYALL_COMMAND + " " + getUsername(lastMessage, c) + " " + getInteger(c, "amount"));
             password = null;
