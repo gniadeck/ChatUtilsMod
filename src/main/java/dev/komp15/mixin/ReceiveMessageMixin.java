@@ -1,5 +1,6 @@
 package dev.komp15.mixin;
 
+import dev.komp15.ChatUtilsMod;
 import dev.komp15.listeners.ListenerManager;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
@@ -19,9 +20,8 @@ public class ReceiveMessageMixin {
 
     @Shadow @Final List<ChatHudLine<OrderedText>> visibleMessages;
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addMessage(Lnet/minecraft/text/Text;)V", at = @At("HEAD"), cancellable = true)
     public void addMessage(Text message, CallbackInfo callbackInfo) {
-        System.out.println("CHAT MESSAGE: " + message.getString());
         ListenerManager.notifyChatListeners(message);
     }
 
