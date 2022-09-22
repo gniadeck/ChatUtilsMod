@@ -1,4 +1,4 @@
-package net.fabricmc.example.listeners;
+package dev.komp15.listeners;
 
 import net.minecraft.text.Text;
 

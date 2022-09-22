@@ -1,10 +1,8 @@
-package net.fabricmc.example.mixin;
+package dev.komp15.mixin;
 
-import net.fabricmc.example.ExampleMod;
-import net.fabricmc.example.listeners.ListenerManager;
+import dev.komp15.listeners.ListenerManager;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;

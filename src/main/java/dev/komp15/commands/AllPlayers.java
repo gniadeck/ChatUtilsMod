@@ -1,6 +1,6 @@
-package net.fabricmc.example.commands;
+package dev.komp15.commands;
 
-import net.fabricmc.example.config.ModConfig;
+import dev.komp15.config.ModConfig;
 
 public class AllPlayers extends AllPlayersCommand{
     @Override

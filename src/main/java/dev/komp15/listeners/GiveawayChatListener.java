@@ -1,6 +1,6 @@
-package net.fabricmc.example.listeners;
+package dev.komp15.listeners;
 
-import net.fabricmc.example.commands.GiveawayCommand;
+import dev.komp15.commands.GiveawayCommand;
 import net.minecraft.text.Text;
 
 public class GiveawayChatListener implements ChatListener{

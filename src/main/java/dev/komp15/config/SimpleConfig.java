@@ -1,4 +1,4 @@
-package net.fabricmc.example.config;
+package dev.komp15.config;
 
 
 /*

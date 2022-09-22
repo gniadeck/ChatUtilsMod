@@ -1,14 +1,15 @@
-package net.fabricmc.example.commands;
+package dev.komp15.commands;
 
 import com.mojang.brigadier.Command;
-import net.fabricmc.example.config.ModConfig;
+import dev.komp15.config.ModConfig;
+import dev.komp15.utils.PlayerMessageUtils;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 
 public class TpaHereAll extends AllPlayersCommand{
     @Override
     protected String getCommandToInvoke(String player, String arg) {
-        return ModConfig.TPAHEREALL_MESSAGE_PREFIX +" " + player;
+        return ModConfig.TPAHEREALL_TPAHERE_COMMAND +" " + player;
     }
 
     @Override
@@ -21,12 +22,8 @@ public class TpaHereAll extends AllPlayersCommand{
         return c -> {
             Thread thread = new Thread(() -> {
                 for(String playerName : c.getSource().getPlayerNames()){
-                    c.getSource().getPlayer().sendChatMessage(getCommandToInvoke(playerName, null));
-                    try {
-                        Thread.sleep(getSleepTimeBetweenInvocations());
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, null));
+                    sleep();
                 }
             });
             thread.start();
@@ -39,18 +36,10 @@ public class TpaHereAll extends AllPlayersCommand{
         return c -> {
             Thread thread = new Thread(() -> {
                 for(String playerName : c.getSource().getPlayerNames()){
-                    c.getSource().getPlayer().sendChatMessage("/msg " + playerName + " " + getString(c, "arg"));
-                    try {
-                        Thread.sleep(getSleepTimeBetweenInvocations());
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    c.getSource().getPlayer().sendChatMessage(getCommandToInvoke(playerName, null));
-                    try {
-                        Thread.sleep(getSleepTimeBetweenInvocations());
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    PlayerMessageUtils.sendPublicMessage(ModConfig.MESSAGEALL_PREFIX + " " + playerName + " " + getString(c, "arg"));
+                    sleep();
+                    PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, null));
+                    sleep();
                 }
             });
             thread.start();

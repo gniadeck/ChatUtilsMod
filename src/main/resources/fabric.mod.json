@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "chat_utils",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "ChatUtils",
+  "description": "This epic Minecraft Mod will help you messing up with the rest of server players",
   "authors": [
-    "Me!"
+    "komp15"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -14,16 +14,16 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/chatutilsmod/chatUtilsLogo.jpg",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "dev.komp15.ChatUtilsMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "chatutils.mixins.json"
   ],
 
   "depends": {

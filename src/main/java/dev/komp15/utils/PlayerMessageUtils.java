@@ -1,4 +1,4 @@
-package net.fabricmc.example.utils;
+package dev.komp15.utils;
 
 import net.minecraft.client.MinecraftClient;
 

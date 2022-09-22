@@ -1,7 +1,7 @@
 package commands;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.fabricmc.example.commands.RandomPlayer;
+import dev.komp15.commands.RandomPlayer;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.junit.Before;

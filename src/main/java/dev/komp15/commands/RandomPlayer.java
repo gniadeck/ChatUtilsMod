@@ -1,9 +1,9 @@
-package net.fabricmc.example.commands;
+package dev.komp15.commands;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.fabricmc.example.utils.PlayerLogger;
-import net.fabricmc.example.utils.PlayerMessageUtils;
+import dev.komp15.utils.PlayerFacade;
+import dev.komp15.utils.PlayerLogger;
+import dev.komp15.utils.PlayerMessageUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
@@ -25,8 +25,7 @@ public class RandomPlayer {
                             return 1;
                         }))
                         .executes(c -> {
-                            PlayerLogger.playerLog("Please provide message",
-                                    UUID.randomUUID());
+                            PlayerLogger.playerLog("Please provide message", c);
                             return 0;
                         })
 
@@ -39,8 +38,7 @@ public class RandomPlayer {
 
     private String getRandomPlayerNickname(CommandContext<FabricClientCommandSource> c){
         Random random = new Random();
-        List<String> players = new ArrayList<>(c.getSource().getPlayerNames());
-        players.removeIf(player -> player.equals(c.getSource().getPlayer().getEntityName()));
+        List<String> players = new ArrayList<>(PlayerFacade.getFilteredServerPlayers(c));
         return players.get(random.nextInt(players.size()));
     }
 
