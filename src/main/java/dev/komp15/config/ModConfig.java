@@ -18,7 +18,7 @@ public class ModConfig {
     public static void registerConfigs() {
         configs = new ModConfigProvider();
         createConfigs();
-        CONFIG = SimpleConfig.of("SeverFunMod" + "config").provider(configs).request();
+        CONFIG = SimpleConfig.of("ChatUtilsMod").provider(configs).request();
         assignConfigs();
     }
 
