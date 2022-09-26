@@ -51,6 +51,20 @@ If you are not an admin, but you want to ask all server players to teleport to y
 All of the command prefixes, like /msg, /tpahere, /pay are fully configurable. Feel free to use the properties file and tweak mod's configuration for your favourite server. If you want, you can also open an issue with your configuration and I will be more than happy to include it in this repo!
 Delays between command invocations are also fully configurable. Have fun!
 
+Content of ChatUtilsMod.properties
+```payall.delay=1000 - delay for /payall command
+payall.command=/pay - command to invoke when calling /payall
+allplayers.delay=7000 - delay for /allplayers command
+messageall.prefix=/msg - command to invoke when calling /messageall
+messageall.delay=1000 - delay for /messageall command
+tpahereall.message.prefix=/msg - command to invoke when calling /tpahereall <private_message>
+tpahereall.tpahere.command=/tpahere - command to invoke when calling /tpahereall, or /tpahereall <private_message>
+giveaway.winmessage=Congratulations, %p you won %a$! - message that will be sent to chat after giveaway end. %p is substituted for winner's nickname, and %a for amount that the player won
+```
+
+
+
+
 
 ## License
 ChatUtils is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
