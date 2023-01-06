@@ -14,6 +14,7 @@ public class ModConfig {
     public static String TPAHEREALL_MESSAGE_PREFIX;
     public static String GIVEAWAY_WIN_MESSAGE;
     public static String TPAHEREALL_TPAHERE_COMMAND;
+    public static String HELLO_PREFIX;
 
     public static void registerConfigs() {
         configs = new ModConfigProvider();
@@ -31,6 +32,7 @@ public class ModConfig {
         configs.addKeyValuePair(new Pair<>("tpahereall.message.prefix", "/msg"), "String");
         configs.addKeyValuePair(new Pair<>("tpahereall.tpahere.command", "/tpahere"), "String");
         configs.addKeyValuePair(new Pair<>("giveaway.winmessage", "Congratulations, %p you won %a$!"), "String");
+        configs.addKeyValuePair(new Pair<>("hello.message", "Hello %p !"), "String");
     }
 
     private static void assignConfigs() {
@@ -42,6 +44,7 @@ public class ModConfig {
         TPAHEREALL_MESSAGE_PREFIX = CONFIG.getOrDefault("tpahereall.message.prefix", "/msg");
         GIVEAWAY_WIN_MESSAGE = CONFIG.getOrDefault("giveaway.winmessage", "Congratulations, %p you won %a$!");
         TPAHEREALL_TPAHERE_COMMAND = CONFIG.getOrDefault("tpahereall.tpahere.command", "/tpahere");
+        HELLO_PREFIX = CONFIG.getOrDefault("hello.message", "Hello %p !");
         ChatUtilsMod.LOGGER.info("Loaded properties " + configs.getConfigsList());
         ChatUtilsMod.LOGGER.info("All " + configs.getConfigsList().size() + " have been set properly");
     }

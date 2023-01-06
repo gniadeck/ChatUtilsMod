@@ -2,6 +2,7 @@ package dev.komp15.utils;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Collection;
 
@@ -11,6 +12,9 @@ public class PlayerFacade {
     }
     public static Collection<String> getFilteredServerPlayers(CommandContext<FabricClientCommandSource> c){
         return PlayerCollectionUtils.filterPlayerNames(c.getSource().getPlayerNames(), getInvokerName(c));
+    }
+    public static String getPlayerName(){
+        return MinecraftClient.getInstance().getSession().getUsername();
     }
 
 }

@@ -2,6 +2,7 @@ package dev.komp15;
 
 import dev.komp15.commands.*;
 import dev.komp15.config.ModConfig;
+import dev.komp15.model.messages.GlobalMessageQueue;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
@@ -25,5 +26,8 @@ public class ChatUtilsMod implements ModInitializer, ClientModInitializer {
 		(new GiveawayCommand()).register();
 		(new RandomPlayer()).register();
 		(new AllPlayers()).init();
+		(new WelcomeNewPlayersCommand()).register();
+		(new HelloAll()).init();
+		(new GlobalMessageQueue()).init();
 	}
 }

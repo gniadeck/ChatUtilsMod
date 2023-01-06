@@ -15,6 +15,9 @@ public class PlayerLogger {
     public static void playerLog(String message, CommandContext<FabricClientCommandSource> c){
         playerLog(message, c.getSource().getPlayer().getUuid());
     }
+    public static void playerLog(String message){
+        playerLog(message, UUID.randomUUID());
+    }
 
 
 }
