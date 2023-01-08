@@ -44,6 +44,6 @@ public class PlayerJoinedEventProducer implements Runnable {
     }
 
     private Set<String> refreshPlayers(){
-        return new HashSet<>(PlayerFacade.getFilteredServerPlayers(context));
+        return new HashSet<>(context.getSource().getPlayerNames());
     }
 }

@@ -2,16 +2,14 @@ package dev.komp15.model.messages;
 
 import dev.komp15.ChatUtilsMod;
 import dev.komp15.config.ModConfig;
-import dev.komp15.listeners.ChatListener;
 import dev.komp15.listeners.ListenerManager;
-import dev.komp15.utils.PlayerFacade;
+import dev.komp15.listeners.MessageSentListener;
 import dev.komp15.utils.PlayerMessageUtils;
-import net.minecraft.text.Text;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class GlobalMessageQueue implements ChatListener {
+public class GlobalMessageQueue implements MessageSentListener {
 
     private static BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     private static Thread messageSender;
@@ -28,7 +26,7 @@ public class GlobalMessageQueue implements ChatListener {
     }
 
     public void init(){
-        ListenerManager.CHAT_LISTENERS.add(this);
+        ListenerManager.MESSAGE_SENT_LISTENERS.add(this);
         lastUserMessageTimestamp = System.currentTimeMillis();
 
         messageSender = new Thread(() -> {
@@ -54,7 +52,7 @@ public class GlobalMessageQueue implements ChatListener {
     }
 
     private static boolean messageSlotIsFree(){
-        return lastUserMessageTimestamp + ModConfig.ALLPLAYERS_DELAY < System.currentTimeMillis();
+        return lastUserMessageTimestamp + ModConfig.GLOBAL_MESSAGE_QUEUE_DELAY < System.currentTimeMillis();
     }
 
     private void sleep(){
@@ -65,12 +63,10 @@ public class GlobalMessageQueue implements ChatListener {
         }
     }
 
-
     @Override
-    public void processMessage(Text message) {
-        if(message.getString().contains(PlayerFacade.getPlayerName())){
-            ChatUtilsMod.LOGGER.info("Detected user message, updated last user message timestamp");
-            lastUserMessageTimestamp = System.currentTimeMillis();
-        }
+    public void messageSent(String message) {
+        ChatUtilsMod.LOGGER.info("Detected user message, updated last user message timestamp");
+        lastUserMessageTimestamp = System.currentTimeMillis();
     }
+
 }

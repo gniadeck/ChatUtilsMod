@@ -15,6 +15,7 @@ public class ModConfig {
     public static String GIVEAWAY_WIN_MESSAGE;
     public static String TPAHEREALL_TPAHERE_COMMAND;
     public static String HELLO_PREFIX;
+    public static Integer GLOBAL_MESSAGE_QUEUE_DELAY;
 
     public static void registerConfigs() {
         configs = new ModConfigProvider();
@@ -33,6 +34,7 @@ public class ModConfig {
         configs.addKeyValuePair(new Pair<>("tpahereall.tpahere.command", "/tpahere"), "String");
         configs.addKeyValuePair(new Pair<>("giveaway.winmessage", "Congratulations, %p you won %a$!"), "String");
         configs.addKeyValuePair(new Pair<>("hello.message", "Hello %p !"), "String");
+        configs.addKeyValuePair(new Pair<>("queue.delay", 6200), "int");
     }
 
     private static void assignConfigs() {
@@ -45,6 +47,7 @@ public class ModConfig {
         GIVEAWAY_WIN_MESSAGE = CONFIG.getOrDefault("giveaway.winmessage", "Congratulations, %p you won %a$!");
         TPAHEREALL_TPAHERE_COMMAND = CONFIG.getOrDefault("tpahereall.tpahere.command", "/tpahere");
         HELLO_PREFIX = CONFIG.getOrDefault("hello.message", "Hello %p !");
+        GLOBAL_MESSAGE_QUEUE_DELAY = CONFIG.getOrDefault("queue.delay", 6200);
         ChatUtilsMod.LOGGER.info("Loaded properties " + configs.getConfigsList());
         ChatUtilsMod.LOGGER.info("All " + configs.getConfigsList().size() + " have been set properly");
     }

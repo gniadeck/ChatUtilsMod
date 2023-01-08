@@ -9,6 +9,7 @@ import dev.komp15.model.messages.GlobalMessageQueue;
 import dev.komp15.utils.PlayerLogger;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Set;
 
@@ -41,8 +42,6 @@ public class WelcomeNewPlayersCommand implements PlayerJoinListener {
         };
     }
 
-    // TODO extract message to properties and find out a mixin to grab messages
-    // sent by the user, instead of checking if a given message contains nickname of the user
     @Override
     public void notify(Set<String> joinedPlayers) {
         ChatUtilsMod.LOGGER.info("Detected player joining " + joinedPlayers);
