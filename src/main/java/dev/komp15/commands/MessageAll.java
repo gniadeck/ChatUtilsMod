@@ -13,6 +13,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
+@Deprecated(forRemoval = true)
 public class MessageAll {
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher){

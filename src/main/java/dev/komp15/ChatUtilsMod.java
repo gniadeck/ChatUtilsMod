@@ -29,5 +29,6 @@ public class ChatUtilsMod implements ModInitializer, ClientModInitializer {
 		(new WelcomeNewPlayersCommand()).register();
 		(new HelloAll()).init();
 		(new GlobalMessageQueue()).init();
+		(new MsgAll()).init();
 	}
 }

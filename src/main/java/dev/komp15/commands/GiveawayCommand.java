@@ -26,15 +26,11 @@ public class GiveawayCommand {
     private Text lastMessage;
 
     public void register(){
-
         ClientCommandManager.DISPATCHER.register(literal("giveawayy")
                 .then(argument("arg", string())
                         .then(argument("amount", integer())
                         .then(argument("message", greedyString())
                                 .executes(this::handleCommand)))));
-
-
-
     }
 
     public int handleCommand(CommandContext<FabricClientCommandSource> c){

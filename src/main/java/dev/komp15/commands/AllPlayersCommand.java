@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
@@ -18,8 +19,11 @@ import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.lit
 
 public abstract class AllPlayersCommand {
 
+    private Thread executor;
+
     protected abstract String getCommandToInvoke(String player, String arg);
     protected abstract String getCommandName();
+
 
     protected long getSleepTimeBetweenInvocations(){
         return 2200;
@@ -29,10 +33,32 @@ public abstract class AllPlayersCommand {
         register();
     }
 
+    protected void setAndRunExecutor(Thread thread){
+        if(executor != null && executor.isAlive()){
+            PlayerLogger.playerLog("Command " + getCommandName() + " is already running! Invoke /" + getCommandName() + " stop" +
+                    " in order to stop the command execution.");
+        } else {
+            executor = thread;
+            executor.start();
+        }
+    }
+
+    protected Command<FabricClientCommandSource> onStop() {
+        return c -> {
+            if(executor.isAlive()){
+                executor.stop();
+                PlayerLogger.playerLog("Command " + getCommandName() + " has been successfully stopped");
+            } else {
+                PlayerLogger.playerLog("Command " + getCommandName() + " is already stopped");
+            }
+            return 1;
+        };
+    }
+
     private void register(){
         ClientCommandManager.DISPATCHER.register(literal(getCommandName())
                 .then(argument("arg", greedyString())
-                        .executes(handleOneArgument()))
+                        .executes(handleStopArgument()))
                         .executes(handleNoArguments()));
     }
 
@@ -44,19 +70,31 @@ public abstract class AllPlayersCommand {
         };
     }
 
+    private Command<FabricClientCommandSource> handleStopArgument(){
+        return c -> {
+            if(getString(c, "arg").equalsIgnoreCase("stop")){
+                onStop().run(c);
+            } else {
+                handleOneArgument().run(c);
+            }
+            return 1;
+        };
+    }
+
     protected Command<FabricClientCommandSource> handleOneArgument(){
         return c -> {
                 PlayerLogger.playerLog("Players " + c.getSource().getPlayerNames(),c);
                 Collection<String> playerNames = PlayerCollectionUtils
                         .filterPlayerNames(PlayerFacade.getFilteredServerPlayers(c), PlayerFacade.getInvokerName(c));
 
-                Thread executor = new Thread(() -> {
+                setAndRunExecutor(new Thread(() -> {
                     for (String playerName : playerNames) {
                         PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, getString(c, "arg")));
                         sleep();
                     }
-                });
-                executor.start();
+                }));
+
+
             return 1;
         };
     }

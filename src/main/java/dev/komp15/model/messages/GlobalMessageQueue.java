@@ -65,7 +65,7 @@ public class GlobalMessageQueue implements MessageSentListener {
 
     @Override
     public void messageSent(String message) {
-        ChatUtilsMod.LOGGER.info("Detected user message, updated last user message timestamp");
+        ChatUtilsMod.LOGGER.info("Detected user message, updated last user message timestamp. Message: " + message);
         lastUserMessageTimestamp = System.currentTimeMillis();
     }
 

@@ -19,17 +19,17 @@ public class HelloAll extends AllPlayersCommand{
     @Override
     protected Command<FabricClientCommandSource> handleNoArguments() {
         return c -> {
-            PlayerLogger.playerLog("Players " + c.getSource().getPlayerNames(),c);
+            PlayerLogger.playerLog("Players " + c.getSource().getPlayerNames(), c);
             Collection<String> playerNames = PlayerCollectionUtils
                     .filterPlayerNames(PlayerFacade.getFilteredServerPlayers(c), PlayerFacade.getInvokerName(c));
 
-            Thread executor = new Thread(() -> {
+            setAndRunExecutor(new Thread(() -> {
                 for (String playerName : playerNames) {
                     PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, null));
                     sleep();
                 }
-            });
-            executor.start();
+            }));
+
             return 1;
         };
     }

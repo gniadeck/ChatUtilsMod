@@ -20,13 +20,12 @@ public class TpaHereAll extends AllPlayersCommand{
     @Override
     protected Command<FabricClientCommandSource> handleNoArguments() {
         return c -> {
-            Thread thread = new Thread(() -> {
+            setAndRunExecutor(new Thread(() -> {
                 for(String playerName : c.getSource().getPlayerNames()){
                     PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, null));
                     sleep();
                 }
-            });
-            thread.start();
+            }));
             return 1;
         };
     }
