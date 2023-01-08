@@ -1,8 +1,10 @@
 package dev.komp15.commands;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import dev.komp15.config.ModConfig;
 import dev.komp15.listeners.ListenerManager;
+import dev.komp15.model.messages.GlobalMessageQueue;
 import dev.komp15.utils.PlayerFacade;
 import dev.komp15.listeners.GiveawayChatListener;
 import dev.komp15.utils.PlayerLogger;
@@ -19,7 +21,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
-public class GiveawayCommand {
+public class GiveawayCommand extends ExecutorBasedCommand{
 
     private String password;
     private static final Object lock = new Object();
@@ -28,27 +30,40 @@ public class GiveawayCommand {
     public void register(){
         ClientCommandManager.DISPATCHER.register(literal("giveawayy")
                 .then(argument("arg", string())
+                        .executes(handleStop())
                         .then(argument("amount", integer())
                         .then(argument("message", greedyString())
                                 .executes(this::handleCommand)))));
     }
 
+    private Command<FabricClientCommandSource> handleStop(){
+        return c -> {
+            if(getString(c, "arg").equalsIgnoreCase("stop")){
+                onStop().run(c);
+            } else {
+                PlayerLogger.playerLog("Unrecognized option: " + getString(c, "arg"));
+            }
+            return 1;
+        };
+    }
+
     public int handleCommand(CommandContext<FabricClientCommandSource> c){
-        if(password != null){
+        if(password != null || executorIsRunning()){
             PlayerLogger.playerLog("Giveaway is in progress! Password: " + password, c);
         }
         password= getString(c, "arg");
-        Thread thread = new Thread(() -> {
+
+        setAndRunExecutor(new Thread(() -> {
             GiveawayChatListener listener = new GiveawayChatListener(getString(c, "arg"), this);
             ListenerManager.CHAT_LISTENERS.add(listener);
             PlayerMessageUtils.sendPublicMessage(getMessage(getString(c, "message"), getString(c, "arg"), String.valueOf(getInteger(c, "amount"))));
             lockThread();
-            PlayerMessageUtils.sendPublicMessage(ModConfig.GIVEAWAY_WIN_MESSAGE.replace("%p",
+            GlobalMessageQueue.queueMessage(ModConfig.GIVEAWAY_WIN_MESSAGE.replace("%p",
                     getUsername(lastMessage, c)).replace("%a", String.valueOf(getInteger(c, "amount"))));
             PlayerMessageUtils.sendPublicMessage(ModConfig.PAYALL_COMMAND + " " + getUsername(lastMessage, c) + " " + getInteger(c, "amount"));
             password = null;
-        });
-        thread.start();
+        }));
+
         return 1;
     }
 
@@ -94,4 +109,8 @@ public class GiveawayCommand {
         return message.getString().substring(message.getString().lastIndexOf(":")+1).strip().trim();
     }
 
+    @Override
+    protected String getCommandName() {
+        return "giveawayy";
+    }
 }
