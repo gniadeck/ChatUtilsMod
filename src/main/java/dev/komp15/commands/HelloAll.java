@@ -2,6 +2,7 @@ package dev.komp15.commands;
 
 import com.mojang.brigadier.Command;
 import dev.komp15.config.ModConfig;
+import dev.komp15.model.messages.GlobalMessageQueue;
 import dev.komp15.utils.PlayerCollectionUtils;
 import dev.komp15.utils.PlayerFacade;
 import dev.komp15.utils.PlayerLogger;
@@ -25,7 +26,7 @@ public class HelloAll extends AllPlayersCommand{
 
             setAndRunExecutor(new Thread(() -> {
                 for (String playerName : playerNames) {
-                    PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, null));
+                    GlobalMessageQueue.queueMessage(getCommandToInvoke(playerName, null));
                     sleep();
                 }
             }));

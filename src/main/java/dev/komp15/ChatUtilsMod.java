@@ -21,14 +21,14 @@ public class ChatUtilsMod implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		ModConfig.registerConfigs();
 		MessageAll.register(ClientCommandManager.DISPATCHER);
-		(new PayAll()).init();
-		(new TpaHereAll()).init();
+		(new PayAll()).onInit();
+		(new TpaHereAll()).onInit();
 		(new GiveawayCommand()).register();
 		(new RandomPlayer()).register();
-		(new AllPlayers()).init();
+		(new AllPlayers()).onInit();
 		(new WelcomeNewPlayersCommand()).register();
-		(new HelloAll()).init();
+		(new HelloAll()).onInit();
 		(new GlobalMessageQueue()).init();
-		(new MsgAll()).init();
+		(new MsgAll()).onInit();
 	}
 }

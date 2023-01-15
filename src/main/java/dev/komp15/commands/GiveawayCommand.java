@@ -113,4 +113,9 @@ public class GiveawayCommand extends ExecutorBasedCommand{
     protected String getCommandName() {
         return "giveawayy";
     }
+
+    @Override
+    public void onServerLeft() {
+
+    }
 }

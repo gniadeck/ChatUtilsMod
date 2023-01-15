@@ -1,12 +1,29 @@
 package dev.komp15.commands;
 
 import com.mojang.brigadier.Command;
+import dev.komp15.listeners.ListenerManager;
+import dev.komp15.listeners.ServerLeftListener;
 import dev.komp15.utils.PlayerLogger;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
-public abstract class ExecutorBasedCommand {
+public abstract class ExecutorBasedCommand implements ServerLeftListener {
 
-    private Thread executor;
+    protected Thread executor;
+
+    public ExecutorBasedCommand() {
+        init();
+    }
+
+    private void init(){
+        onInit();
+        registerAsServerLeftListener();
+    }
+
+    private void registerAsServerLeftListener() {
+        ListenerManager.SERVER_LEFT_LISTENERS.add(this);
+    }
+
+    protected void onInit(){};
 
     protected abstract String getCommandName();
 
@@ -36,4 +53,8 @@ public abstract class ExecutorBasedCommand {
         return executor != null && executor.isAlive();
     }
 
+    @Override
+    public void onServerLeft() {
+        executor.interrupt();
+    }
 }

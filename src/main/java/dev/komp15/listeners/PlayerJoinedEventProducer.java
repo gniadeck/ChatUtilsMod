@@ -2,7 +2,6 @@ package dev.komp15.listeners;
 
 import com.mojang.brigadier.context.CommandContext;
 import dev.komp15.ChatUtilsMod;
-import dev.komp15.utils.PlayerFacade;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
 import java.util.HashSet;
@@ -12,16 +11,21 @@ public class PlayerJoinedEventProducer implements Runnable {
 
     private final CommandContext<FabricClientCommandSource> context;
     private Set<String> currentPlayers;
+    private volatile boolean isStopped;
 
     public PlayerJoinedEventProducer(CommandContext<FabricClientCommandSource> context) {
         this.context = context;
+    }
+
+    public void stop(){
+        isStopped = true;
     }
 
     @Override
     public void run() {
         currentPlayers = refreshPlayers();
 
-        while(true) {
+        while(!isStopped) {
             sleep();
             Set<String> refreshedPlayers = refreshPlayers();
             refreshedPlayers.removeAll(currentPlayers);
@@ -32,6 +36,7 @@ public class PlayerJoinedEventProducer implements Runnable {
             currentPlayers = refreshPlayers();
 
         }
+        ChatUtilsMod.LOGGER.info("Stopped player joined event producer");
 
     }
 

@@ -1,6 +1,7 @@
 package dev.komp15.commands;
 
 import com.mojang.brigadier.context.CommandContext;
+import dev.komp15.model.messages.GlobalMessageQueue;
 import dev.komp15.utils.PlayerFacade;
 import dev.komp15.utils.PlayerLogger;
 import dev.komp15.utils.PlayerMessageUtils;
@@ -21,7 +22,7 @@ public class RandomPlayer {
         ClientCommandManager.DISPATCHER.register(literal("randomplayer")
                 .then(argument("message", greedyString())
                         .executes(c -> {
-                            PlayerMessageUtils.sendPublicMessage(processMessage(getString(c, "message"), c));
+                            GlobalMessageQueue.queueMessage(processMessage(getString(c, "message"), c));
                             return 1;
                         }))
                         .executes(c -> {

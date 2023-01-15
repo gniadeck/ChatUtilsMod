@@ -2,6 +2,7 @@ package dev.komp15.commands;
 
 import com.mojang.brigadier.Command;
 import dev.komp15.ChatUtilsMod;
+import dev.komp15.model.messages.GlobalMessageQueue;
 import dev.komp15.utils.PlayerFacade;
 import dev.komp15.utils.PlayerMessageUtils;
 import dev.komp15.utils.PlayerCollectionUtils;
@@ -10,7 +11,6 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
@@ -19,8 +19,6 @@ import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.lit
 
 public abstract class AllPlayersCommand extends ExecutorBasedCommand {
 
-    private Thread executor;
-
     protected abstract String getCommandToInvoke(String player, String arg);
 
 
@@ -28,8 +26,17 @@ public abstract class AllPlayersCommand extends ExecutorBasedCommand {
         return 2200;
     }
 
-    public void init(){
+    @Override
+    public void onInit(){
         register();
+    }
+
+    @Override
+    public void onServerLeft() {
+        if(executor != null){
+            executor.stop();
+            executor = null;
+        }
     }
 
     private void register(){
@@ -66,7 +73,7 @@ public abstract class AllPlayersCommand extends ExecutorBasedCommand {
 
                 setAndRunExecutor(new Thread(() -> {
                     for (String playerName : playerNames) {
-                        PlayerMessageUtils.sendPublicMessage(getCommandToInvoke(playerName, getString(c, "arg")));
+                        GlobalMessageQueue.queueMessage(getCommandToInvoke(playerName, getString(c, "arg")));
                         sleep();
                     }
                 }));
@@ -75,6 +82,7 @@ public abstract class AllPlayersCommand extends ExecutorBasedCommand {
             return 1;
         };
     }
+
 
     public void sleep(){
         try {

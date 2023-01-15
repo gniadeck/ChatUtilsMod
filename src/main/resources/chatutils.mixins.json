@@ -8,7 +8,8 @@
   "client": [
     "ReceiveMessageMixin",
     "PlayerJoinMixin",
-    "SendMessageMixin"
+    "SendMessageMixin",
+    "LeaveServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
